@@ -24,7 +24,7 @@ COLORS = {
     'CYAN': CYAN,
     'WHITE': WHITE}
 RESET_SEQ = '\033[0m'
-COLOR_SEQ = '\033[1;%dm'
+COLOR_SEQ = '\033[%dm'
 BOLD_SEQ = '\033[1m'
 
 
@@ -51,6 +51,5 @@ def make_colored_stream_handler(std=sys.stdout, level=logging.DEBUG):
     handler.setLevel(level)
     handler.setFormatter(
         ColorFormatter(
-            '$COLOR%(levelname)s %(asctime)s '
-            '$BOLD$COLOR%(name)s$RESET %(message)s'))
+            '$RESET$COLOR%(asctime)s $BOLD$COLOR%(name)s %(funcName)s:%(lineno)d $RESET %(message)s'))
     return handler
