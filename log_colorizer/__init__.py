@@ -51,5 +51,6 @@ def make_colored_stream_handler(std=sys.stdout, level=logging.DEBUG):
     handler.setLevel(level)
     handler.setFormatter(
         ColorFormatter(
-            '$RESET$COLOR%(asctime)s $BOLD$COLOR%(name)s %(funcName)s:%(lineno)d $RESET %(message)s'))
+            '$RESET$COLOR%(asctime)s $BOLD$COLOR%(name)s'
+            ' %(funcName)s:%(lineno)d $RESET %(message)s'))
     return handler
