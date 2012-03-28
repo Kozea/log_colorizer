@@ -6,6 +6,7 @@
 Log colorizer
 
 """
+import os
 import sys
 import logging
 
@@ -33,12 +34,14 @@ class ColorFormatter(logging.Formatter):
                 '\x1b[0m')
 
 
-def make_colored_stream_handler(std=sys.stdout, level=logging.DEBUG):
+def make_colored_stream_handler(
+        std=sys.stdout, level=logging.DEBUG):
     """Return a colored stream handler"""
     handler = logging.StreamHandler(std)
     handler.setLevel(level)
-    handler.setFormatter(
-        ColorFormatter(
-            '$COLOR%(asctime)s $BOLD$COLOR%(name)s'
-            ' %(funcName)s:%(lineno)d $RESET %(message)s'))
+    if not hasattr(std, 'fileno') or os.isatty(std.fileno()):
+        handler.setFormatter(
+            ColorFormatter(
+                '$COLOR%(asctime)s $BOLD$COLOR%(name)s'
+                ' %(funcName)s:%(lineno)d $RESET %(message)s'))
     return handler
