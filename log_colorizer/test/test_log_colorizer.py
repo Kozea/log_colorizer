@@ -21,13 +21,16 @@ class FakeRecord(object):
 
 def test_normal():
     color_formatter = ColorFormatter("%(message)s")
-    assert color_formatter.format(FakeRecord()) == "msg"
-    assert color_formatter.format(FakeRecord(levelname='INFO')) == "msg"
+    assert color_formatter.format(
+        FakeRecord(levelname='DEBUG')) == "\x1b[0mmsg\x1b[0m"
+    assert color_formatter.format(
+        FakeRecord(levelname='INFO')) == "\x1b[0mmsg\x1b[0m"
 
 
 def test_levels():
-    color_formatter = ColorFormatter("$RESET$COLOR%(message)s$RESET")
-    assert color_formatter.format(FakeRecord()) == "\x1b[0m\x1b[32mmsg\x1b[0m"
+    color_formatter = ColorFormatter("$COLOR%(message)s")
+    assert color_formatter.format(
+        FakeRecord(levelname='DEBUG')) == "\x1b[0m\x1b[32mmsg\x1b[0m"
     assert color_formatter.format(
         FakeRecord(levelname='INFO')) == "\x1b[0m\x1b[34mmsg\x1b[0m"
     assert color_formatter.format(
@@ -36,6 +39,8 @@ def test_levels():
         FakeRecord(levelname='ERROR')) == "\x1b[0m\x1b[31mmsg\x1b[0m"
     assert color_formatter.format(
         FakeRecord(levelname='CRITICAL')) == "\x1b[0m\x1b[35mmsg\x1b[0m"
+    assert color_formatter.format(
+        FakeRecord(levelname='UNKNOWN')) == "\x1b[0m\x1b[37mmsg\x1b[0m"
 
 
 def test_log():
@@ -50,5 +55,5 @@ def test_log():
     assert res.startswith('\x1b[0m\x1b[33m')
     assert res.endswith(
         ' \x1b[1m\x1b[33m'
-        'test_log_colorizer test_log:46 '
+        'test_log_colorizer test_log:51 '
         '\x1b[0m HALP!\x1b[0m\n')

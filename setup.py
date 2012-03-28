@@ -7,7 +7,7 @@ Log colorizer
 
 from setuptools import setup, find_packages
 
-VERSION = "0.8"
+VERSION = "1.0"
 
 
 options = dict(
@@ -21,7 +21,7 @@ options = dict(
     platforms="Any",
     packages=find_packages(),
     classifiers=[
-        "Development Status :: Stable",
+        "Development Status :: 5 - Production/Stable",
         "Intended Audience :: Developers",
         "License :: OSI Approved :: BSD License",
         "Operating System :: OS Independent",

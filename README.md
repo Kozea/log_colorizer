@@ -1,7 +1,7 @@
 Log Colorizer
 =============
 
-Very simple python logging colorizer formatter licensed under BSD for linux consoles
+Simple python logging colorizer formatter licensed under BSD for linux consoles
 Copyright (C) 2011 by Florian Mounier, Kozea
 
 Installation
