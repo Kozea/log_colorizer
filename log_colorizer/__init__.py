@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
-# This file is a compilation of tricks found on the internet
+# Copyright (C) 2011 by Florian Mounier, Kozea
+# This file is part of brigit, licensed under a 3-clause BSD license.
+
 """
 Log colorizer
 
@@ -12,9 +14,9 @@ from logging import StreamHandler
 BLACK, RED, GREEN, YELLOW, BLUE, MAGENTA, CYAN, WHITE = range(8)
 COLORS = {
     'WARNING': YELLOW,
-    'INFO': GREEN,
-    'DEBUG': BLUE,
-    'CRITICAL': YELLOW,
+    'INFO': BLUE,
+    'DEBUG': GREEN,
+    'CRITICAL': MAGENTA,
     'ERROR': RED,
     'RED': RED,
     'GREEN': GREEN,
@@ -42,7 +44,7 @@ class ColorFormatter(logging.Formatter):
             message = message.replace('$' + color, COLOR_SEQ % (value + 30))\
                 .replace('$BG' + color, COLOR_SEQ % (value + 40))\
                 .replace('$BG-' + color, COLOR_SEQ % (value + 40))
-        return message + RESET_SEQ
+        return message
 
 
 def make_colored_stream_handler(std=sys.stdout, level=logging.DEBUG):
@@ -52,5 +54,5 @@ def make_colored_stream_handler(std=sys.stdout, level=logging.DEBUG):
     handler.setFormatter(
         ColorFormatter(
             '$RESET$COLOR%(asctime)s $BOLD$COLOR%(name)s'
-            ' %(funcName)s:%(lineno)d $RESET %(message)s'))
+            ' %(funcName)s:%(lineno)d $RESET %(message)s$RESET'))
     return handler
