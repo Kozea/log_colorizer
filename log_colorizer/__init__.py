@@ -6,6 +6,7 @@
 Log colorizer
 
 """
+from __future__ import unicode_literals
 import os
 import sys
 import logging
@@ -39,7 +40,12 @@ def make_colored_stream_handler(
     """Return a colored stream handler"""
     handler = logging.StreamHandler(std)
     handler.setLevel(level)
-    if not hasattr(std, 'fileno') or os.isatty(std.fileno()):
+    try:
+        fn = std.fileno()
+    except:
+        fn = None
+
+    if fn == None or os.isatty(fn):
         handler.setFormatter(
             ColorFormatter(
                 '$COLOR%(asctime)s $BOLD$COLOR%(name)s'

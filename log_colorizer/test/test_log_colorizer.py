@@ -3,7 +3,7 @@
 # This file is part of brigit, licensed under a 3-clause BSD license.
 import logging
 from log_colorizer import ColorFormatter, make_colored_stream_handler
-from StringIO import StringIO
+from io import StringIO
 
 
 class FakeRecord(object):
@@ -11,6 +11,7 @@ class FakeRecord(object):
     levelname = 'DEBUG'
     exc_text = None
     exc_info = None
+    stack_info = None
 
     def __init__(self, **kwargs):
         self.__dict__.update(kwargs)
@@ -55,5 +56,5 @@ def test_log():
     assert res.startswith('\x1b[0m\x1b[33m')
     assert res.endswith(
         ' \x1b[1m\x1b[33m'
-        'test_log_colorizer test_log:51 '
+        'test_log_colorizer test_log:52 '
         '\x1b[0m HALP!\x1b[0m\n')
