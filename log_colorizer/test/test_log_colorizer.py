@@ -2,46 +2,50 @@
 # Copyright (C) 2011 by Florian Mounier, Kozea
 # This file is part of brigit, licensed under a 3-clause BSD license.
 import logging
+import sys
+from logging import (DEBUG, INFO, WARNING, ERROR, CRITICAL)
 from log_colorizer import ColorFormatter, make_colored_stream_handler
-from io import StringIO
+
+if sys.version_info[0] < 3:
+    from io import BytesIO as StringIO
+else:
+    from io import StringIO
 
 
-class FakeRecord(object):
-    message = 'msg'
-    levelname = 'DEBUG'
-    exc_text = None
-    exc_info = None
-    stack_info = None
+class FakeRecord(logging.LogRecord):
 
-    def __init__(self, **kwargs):
-        self.__dict__.update(kwargs)
-
-    def getMessage(self):
-        return self.message
+    def __init__(self,
+               name='name', level=DEBUG, pathname='pathname', lineno=0,
+               msg='msg', args=None, exc_info=None, func=None):
+        logging.LogRecord.__init__(self,
+            name, level, pathname, lineno,
+            msg, args, exc_info, func)
 
 
 def test_normal():
-    color_formatter = ColorFormatter("%(message)s")
+    color_formatter = ColorFormatter("%(msg)s")
     assert color_formatter.format(
-        FakeRecord(levelname='DEBUG')) == "\x1b[0mmsg\x1b[0m"
+        FakeRecord(level=DEBUG)) == "\x1b[0mmsg\x1b[0m"
     assert color_formatter.format(
-        FakeRecord(levelname='INFO')) == "\x1b[0mmsg\x1b[0m"
+        FakeRecord(level=INFO)) == "\x1b[0mmsg\x1b[0m"
+    assert color_formatter.format(FakeRecord(msg='A')) == '\x1b[0mA\x1b[0m'
+    assert color_formatter.format(FakeRecord(msg='À')) == '\x1b[0mÀ\x1b[0m'
 
 
 def test_levels():
     color_formatter = ColorFormatter("$COLOR%(message)s")
     assert color_formatter.format(
-        FakeRecord(levelname='DEBUG')) == "\x1b[0m\x1b[32mmsg\x1b[0m"
+        FakeRecord(level=DEBUG)) == "\x1b[0m\x1b[32mmsg\x1b[0m"
     assert color_formatter.format(
-        FakeRecord(levelname='INFO')) == "\x1b[0m\x1b[34mmsg\x1b[0m"
+        FakeRecord(level=INFO)) == "\x1b[0m\x1b[34mmsg\x1b[0m"
     assert color_formatter.format(
-        FakeRecord(levelname='WARNING')) == "\x1b[0m\x1b[33mmsg\x1b[0m"
+        FakeRecord(level=WARNING)) == "\x1b[0m\x1b[33mmsg\x1b[0m"
     assert color_formatter.format(
-        FakeRecord(levelname='ERROR')) == "\x1b[0m\x1b[31mmsg\x1b[0m"
+        FakeRecord(level=ERROR)) == "\x1b[0m\x1b[31mmsg\x1b[0m"
     assert color_formatter.format(
-        FakeRecord(levelname='CRITICAL')) == "\x1b[0m\x1b[35mmsg\x1b[0m"
+        FakeRecord(level=CRITICAL)) == "\x1b[0m\x1b[35mmsg\x1b[0m"
     assert color_formatter.format(
-        FakeRecord(levelname='UNKNOWN')) == "\x1b[0m\x1b[37mmsg\x1b[0m"
+        FakeRecord(level='UNKNOWN')) == "\x1b[0m\x1b[37mmsg\x1b[0m"
 
 
 def test_log():
@@ -56,5 +60,5 @@ def test_log():
     assert res.startswith('\x1b[0m\x1b[33m')
     assert res.endswith(
         ' \x1b[1m\x1b[33m'
-        'test_log_colorizer test_log:52 '
+        'test_log_colorizer test_log:56 '
         '\x1b[0m HALP!\x1b[0m\n')

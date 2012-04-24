@@ -6,7 +6,6 @@
 Log colorizer
 
 """
-from __future__ import unicode_literals
 import os
 import sys
 import logging
@@ -26,13 +25,15 @@ class ColorFormatter(logging.Formatter):
     def format(self, record):
         """Format the record with colors."""
         message = logging.Formatter.format(self, record)
-        return ('\x1b[0m' +
+        if sys.version_info[0] < 3:
+            if isinstance(message, unicode):
+                message = message.encode('utf-8')
+        return ('\x1b[0m%s\x1b[0m' %
                 message
-                   .replace('$RESET', '\x1b[0m')
-                   .replace('$BOLD', '\x1b[1m')
-                   .replace('$COLOR', '\x1b[%dm' %
-                            self.level_colors.get(record.levelname, 37)) +
-                '\x1b[0m')
+                .replace('$RESET', '\x1b[0m')
+                .replace('$BOLD', '\x1b[1m')
+                .replace('$COLOR', '\x1b[%dm' %
+                         self.level_colors.get(record.levelname, 37)))
 
 
 def make_colored_stream_handler(
