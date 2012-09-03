@@ -46,9 +46,19 @@ def make_colored_stream_handler(
     except:
         fn = None
 
-    if fn == None or os.isatty(fn):
+    if fn is None or os.isatty(fn):
         handler.setFormatter(
             ColorFormatter(
                 '$COLOR%(asctime)s $BOLD$COLOR%(name)s'
                 ' %(funcName)s:%(lineno)d $RESET %(message)s'))
     return handler
+
+
+def get_color_logger(name=None, silent=False, **kwargs):
+    """Like logging.getLogger but with colors"""
+    logger = logging.getLogger(name)
+    handler = make_colored_stream_handler(**kwargs)
+    logger.addHandler(handler)
+    if not silent:
+        logger.setLevel(logging.DEBUG)
+    return logger

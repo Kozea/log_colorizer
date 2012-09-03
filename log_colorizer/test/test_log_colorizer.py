@@ -4,7 +4,8 @@
 import logging
 import sys
 from logging import (DEBUG, INFO, WARNING, ERROR, CRITICAL)
-from log_colorizer import ColorFormatter, make_colored_stream_handler
+from log_colorizer import (
+    ColorFormatter, make_colored_stream_handler, get_color_logger)
 
 if sys.version_info[0] < 3:
     from io import BytesIO as StringIO
@@ -60,5 +61,22 @@ def test_log():
     assert res.startswith('\x1b[0m\x1b[33m')
     assert res.endswith(
         ' \x1b[1m\x1b[33m'
-        'test_log_colorizer test_log:56 '
+        'test_log_colorizer test_log:57 '
+        '\x1b[0m HALP!\x1b[0m\n')
+
+
+def test_get_color_logger():
+    assert get_color_logger() == logging.root
+    assert get_color_logger('test_get_color_logger') != logging.root
+    assert get_color_logger('test_get_color_logger') == logging.getLogger(
+        'test_get_color_logger')
+    sio = StringIO()
+    logr = get_color_logger('test_get_color_logger', std=sio)
+    logr.warning('HALP!')
+    sio.seek(0)
+    res = sio.read()
+    assert res.startswith('\x1b[0m\x1b[33m')
+    assert res.endswith(
+        ' \x1b[1m\x1b[33m'
+        'test_get_color_logger test_get_color_logger:75 '
         '\x1b[0m HALP!\x1b[0m\n')
