@@ -10,6 +10,16 @@ import os
 import sys
 import logging
 
+if sys.platform == 'win32':
+    try:
+        import colorama
+    except ImportError:
+        raise ImportError(
+            "The colorama library must be "
+            "installed if you are on Windows")
+    else:
+        colorama.init()
+
 
 class ColorFormatter(logging.Formatter):
     """Simple python logging colorizer formatter """
