@@ -72,3 +72,10 @@ def get_color_logger(name=None, silent=False, **kwargs):
     if not silent:
         logger.setLevel(logging.DEBUG)
     return logger
+
+
+def colorize():
+    logging._defaultFormatter = ColorFormatter(
+        '$COLOR%(asctime)s $BOLD$COLOR%(name)s'
+        ' %(funcName)s:%(lineno)d $RESET %(message)s')
+    logging.root.handlers = [make_colored_stream_handler()]
