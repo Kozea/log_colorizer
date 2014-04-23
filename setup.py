@@ -4,11 +4,15 @@
 """
 Log colorizer
 """
-
+import sys
 from setuptools import setup, find_packages
 
-VERSION = "1.5"
+VERSION = "1.6"
 
+requires = []
+
+if sys.platform == 'win32':
+    requires.append('colorama')
 
 options = dict(
     name="log_colorizer",
@@ -21,6 +25,7 @@ options = dict(
     platforms="Any",
     use_2to3=True,
     packages=find_packages(),
+    install_requires=requires,
     classifiers=[
         "Development Status :: 5 - Production/Stable",
         "Intended Audience :: Developers",
