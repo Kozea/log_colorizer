@@ -7,7 +7,7 @@ Log colorizer
 import sys
 from setuptools import setup, find_packages
 
-VERSION = "1.7"
+VERSION = "1.7.0"
 
 requires = []
 
