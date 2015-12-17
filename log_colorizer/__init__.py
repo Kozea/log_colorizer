@@ -79,3 +79,13 @@ def colorize():
         '$COLOR%(asctime)s $BOLD$COLOR%(name)s'
         ' %(funcName)s:%(lineno)d $RESET %(message)s')
     logging.root.handlers = [make_colored_stream_handler()]
+
+
+def basicConfig(**kwargs):
+    handler = make_colored_stream_handler()
+    if kwargs.get('handlers'):
+        kwargs['handlers'].append(handler)
+    else:
+        kwargs['handlers'] = [handler]
+
+    return logging.basicConfig(**kwargs)
