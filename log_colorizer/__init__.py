@@ -69,6 +69,7 @@ def get_color_logger(name=None, silent=False, **kwargs):
     logger = logging.getLogger(name)
     handler = make_colored_stream_handler(**kwargs)
     logger.addHandler(handler)
+    logger.propagate = False
     if not silent:
         logger.setLevel(logging.DEBUG)
     return logger
