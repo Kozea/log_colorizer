@@ -10,6 +10,10 @@ import os
 import sys
 import logging
 
+FORMAT = (
+    '\x1b[?77h$COLOR%(asctime)s $BOLD$COLOR%(name)s '
+    '$RESET%(message)s at $BOLD$COLOR%(funcName)s:%(lineno)d$RESET\x1b[?77l')
+
 if sys.platform == 'win32':
     try:
         import colorama
@@ -47,7 +51,7 @@ class ColorFormatter(logging.Formatter):
 
 
 def make_colored_stream_handler(
-        std=sys.stdout, level=logging.DEBUG):
+        std=sys.stdout, level=logging.DEBUG, format=FORMAT):
     """Return a colored stream handler"""
     handler = logging.StreamHandler(std)
     handler.setLevel(level)
@@ -57,10 +61,7 @@ def make_colored_stream_handler(
         fn = None
 
     if fn is None or os.isatty(fn):
-        handler.setFormatter(
-            ColorFormatter(
-                '$COLOR%(asctime)s $BOLD$COLOR%(name)s'
-                ' %(funcName)s:%(lineno)d $RESET %(message)s'))
+        handler.setFormatter(ColorFormatter(format))
     return handler
 
 
@@ -75,10 +76,8 @@ def get_color_logger(name=None, silent=False, **kwargs):
     return logger
 
 
-def colorize():
-    logging._defaultFormatter = ColorFormatter(
-        '$COLOR%(asctime)s $BOLD$COLOR%(name)s'
-        ' %(funcName)s:%(lineno)d $RESET %(message)s')
+def colorize(format=FORMAT):
+    logging._defaultFormatter = ColorFormatter(format)
     logging.root.handlers = [make_colored_stream_handler()]
 
 
