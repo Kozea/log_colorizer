@@ -13,6 +13,8 @@ import logging
 FORMAT = (
     '\x1b[?77h$COLOR%(asctime)s $BOLD$COLOR%(name)s '
     '$RESET%(message)s at $BOLD$COLOR%(funcName)s:%(lineno)d$RESET\x1b[?77l')
+FORMAT = os.getenv('LOG_COLORIZER_FORMAT', FORMAT)
+
 
 if sys.platform == 'win32':
     try:
@@ -77,7 +79,7 @@ def get_color_logger(name=None, silent=False, **kwargs):
 
 
 def colorize(format=FORMAT):
-    logging._defaultFormatter = ColorFormatter(format)
+    colorize_default_formatter(format)
     logging.root.handlers = [make_colored_stream_handler()]
 
 
@@ -89,3 +91,7 @@ def basicConfig(**kwargs):
         kwargs['handlers'] = [handler]
 
     return logging.basicConfig(**kwargs)
+
+
+def colorize_default_formatter(format=FORMAT):
+    logging._defaultFormatter = ColorFormatter(format)
