@@ -1,1 +1,1 @@
-import log_colorizer; log_colorizer.colorize_default_formatter()
+exec("try:\n  import log_colorizer; log_colorizer.colorize_default_formatter()\nexcept ImportError:\n  print('No log_colorizer found in path')")

@@ -1,13 +1,13 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 Log colorizer
 """
 import sys
-from setuptools import setup, find_packages
 
-VERSION = "1.8.5"
+from setuptools import find_packages, setup
+
+VERSION = "1.8.6"
 
 requires = []
 
@@ -34,6 +34,8 @@ options = dict(
         "Programming Language :: Python :: 2",
         "Programming Language :: Python :: 3",
         "Programming Language :: Python :: Implementation :: PyPy",
-        "Topic :: Software Development :: Libraries :: Python Modules"])
+        "Topic :: Software Development :: Libraries :: Python Modules"
+    ]
+)
 
 setup(**options)
