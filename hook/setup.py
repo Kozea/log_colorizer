@@ -1,17 +1,17 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 Log colorizer import hook
 """
-import sys
 import os
-from setuptools import setup, find_packages
+import sys
 from distutils.sysconfig import get_python_lib
+
+from setuptools import find_packages, setup
 
 site_packages_path = get_python_lib().replace(sys.prefix + os.path.sep, '')
 
-VERSION = "1.0.0"
+VERSION = "1.1.0"
 
 options = dict(
     name="log_colorizer_hook",
@@ -22,6 +22,7 @@ options = dict(
     license="BSD",
     platforms="Any",
     data_files=[(site_packages_path, ['log_colorizer_hook.pth'])],
-    install_requires=['log_colorizer >= 1.8.5'])
+    install_requires=['log_colorizer >= 1.8.5']
+)
 
 setup(**options)
