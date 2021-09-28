@@ -11,7 +11,7 @@ from setuptools import find_packages, setup
 
 site_packages_path = get_python_lib().replace(sys.prefix + os.path.sep, '')
 
-VERSION = "1.1.0"
+VERSION = "2.0.0"
 
 options = dict(
     name="log_colorizer_hook",
@@ -22,7 +22,7 @@ options = dict(
     license="BSD",
     platforms="Any",
     data_files=[(site_packages_path, ['log_colorizer_hook.pth'])],
-    install_requires=['log_colorizer >= 1.8.5']
+    install_requires=['log_colorizer >= 2.0.0']
 )
 
 setup(**options)
