@@ -7,7 +7,7 @@ import sys
 
 from setuptools import find_packages, setup
 
-VERSION = "1.8.6"
+VERSION = "2.0.0"
 
 requires = []
 
@@ -23,7 +23,6 @@ options = dict(
     author_email="florian.mounier@kozea.fr",
     license="BSD",
     platforms="Any",
-    use_2to3=True,
     packages=find_packages(),
     install_requires=requires,
     classifiers=[
