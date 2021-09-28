@@ -58,11 +58,11 @@ def test_log():
 
     sio.seek(0)
     res = sio.read()
-    assert res.startswith('\x1b[0m\x1b[33m')
+    assert res.startswith('\x1b[0m\x1b[?77h\x1b[33m')
     assert res.endswith(
-        ' \x1b[1m\x1b[33m'
-        'test_log_colorizer test_log:57 '
-        '\x1b[0m HALP!\x1b[0m\n')
+            '\x1b[0mHALP! at '
+            '\x1b[1m\x1b[33mtest_log:57'
+            '\x1b[0m\x1b[?77l\x1b[0m\n')
 
 
 def test_get_color_logger():
@@ -75,8 +75,8 @@ def test_get_color_logger():
     logr.warning('HALP!')
     sio.seek(0)
     res = sio.read()
-    assert res.startswith('\x1b[0m\x1b[33m')
+    assert res.startswith('\x1b[0m\x1b[?77h\x1b[33m')
     assert res.endswith(
-        ' \x1b[1m\x1b[33m'
-        'test_get_color_logger test_get_color_logger:75 '
-        '\x1b[0m HALP!\x1b[0m\n')
+        '\x1b[0mHALP! at '
+        '\x1b[1m\x1b[33mtest_get_color_logger:75'
+        '\x1b[0m\x1b[?77l\x1b[0m\n')
